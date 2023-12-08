@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Vitality – домашняя страница</title>
+  <link rel="icon" type="image/ico" href="/static/images/favicon.ico">
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div th:replace="'/page elements/header' :: header"></div>
+
+  <main style="min-height: calc(100vh - 233px - 67.6px); display: flex; align-items: center" class="mt-5 mb-5">
+    <div class="index-message container pb-3">
+      <div class="row">
+        <div class="clo-12">
+          <h2 class="text-center text-uppercase mb-5" style="color: lightgray"></h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-3 col-lg-12 text-center">
+          <img src="/static/images/CMO.png" alt="Главный врач" class="img-fluid chief-med-officer-img">
+        </div>
+        <div class="col-xl-9 col-lg-12">
+          <h4>Главный врач клиники Vitality</h4>
+          <p>Уважаемые пациенты!</p>
+          <p>Я рад приветствовать вас на странице нашей поликлиники. Наша команда делает все возможное, чтобы обеспечить вас лучшими медицинскими услугами.</p>
+          <p>Все наши сотрудники готовы предоставить вам профессиональную и квалифицированную помощь в любой ситуации. Ваше здоровье является нашим приоритетом, и мы готовы сделать все, что в наших силах, чтобы обеспечить вас лучшей медицинской помощью.</p>
+          <p>Мы предоставляем широкий спектр медицинских услуг, включая диагностику, лечение и профилактику различных заболеваний. Мы работаем с самыми современными технологиями и методиками лечения, чтобы обеспечить вам максимально эффективное и комфортное лечение.</p>
+          <p>Мы надеемся, что наша поликлиника станет вашим надежным партнером в поддержании здоровья. Желаем вам здоровья и благополучия!</p>
+          <p>С уважением, Константин Игоревич Петров</p>
+          <a sec:authorize="!isAuthenticated()" href="/auth/login" class="btn btn-primary mb-1">Записаться на прием</a>
+          <a sec:authorize="hasRole('ROLE_GUEST')" th:href="@{/guest/edit/{guestId}(guestId=${#authentication.principal.id})}" class="btn btn-primary mb-1">Записаться на прием</a>
+          <a sec:authorize="hasRole('ROLE_PATIENT')" class="btn btn-primary mb-1" href="/appointment/schedule?week=0">Записаться на прием</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="'/page elements/footer' :: footer"></div>
+  <script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

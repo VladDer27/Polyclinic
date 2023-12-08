@@ -1,0 +1,4 @@
+# Project exclude paths
+/vitality/.gradle/
+/vitality/build/
+/vitality/build/classes/java/main/

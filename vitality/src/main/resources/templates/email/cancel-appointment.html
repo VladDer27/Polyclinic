@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Отмена записи</title>
+</head>
+<body>
+  <main>
+    <p>
+      Уважаем<span th:text="${appointment.patient.gender.name().equals('MALE') ? 'ый' : 'ая'}"></span>
+      <span th:text="${patient_user.firstName == null ? '' : patient_user.firstName} + ' ' + ${patient_user.middleName == null ? '' : patient_user.middleName}"></span>
+      , ваша запись на прием у врача была отменена.
+    </p>
+    <p>
+      Детали заявки:<br>
+      <b>Дата: </b><span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy')}"></span><br>
+      <b>Время: </b><span th:text="${appointment.startTime} + '-' + ${appointment.startTime.plusMinutes(doctor.appointmentDuration)}"></span><br>
+      <b>Кабинет: </b><span th:text="${doctor.room}"></span><br>
+      <b>Специальность врача: </b><span th:text="#{${doctor.speciality}}"></span><br>
+      <b>Врач: </b><span th:text="${doctor_user.lastName == null ? '' : doctor_user.lastName} + ' ' + ${doctor_user.firstName == null ? '' : doctor_user.firstName} + ' ' + ${doctor_user.middleName == null ? '' : doctor_user.middleName}"></span><br>
+    </p>
+  </main>
+</body>
+</html>

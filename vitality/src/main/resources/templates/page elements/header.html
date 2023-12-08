@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>Header</title>
+</head>
+<body>
+
+<header th:fragment="header">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/home">
+        <img src="/static/images/logo.png" width="43">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Главная</a>
+          </li>
+          <li sec:authorize="hasRole('ROLE_ADMIN')">
+            <a class="nav-link" href="/admin">Панель администратора</a>
+          </li>
+          <li sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
+            <a class="nav-link" th:href="@{/patient/edit/{patientId}(patientId = ${#authentication.principal.patient.id})}">Изменить профиль</a>
+          </li>
+          <li sec:authorize="hasRole('ROLE_PATIENT')" class="nav-item">
+            <a class="nav-link" th:href="@{/patient/appointments/{patientId}(patientId = ${#authentication.principal.patient.id})}">Мои записи</a>
+          </li>
+          <li sec:authorize="hasRole('ROLE_DOCTOR')" class="nav-item">
+            <a class="nav-link" th:href="@{/doctor/appointments/{doctorId}(doctorId = ${#authentication.principal.doctor.id})}">Запланированные приемы</a>
+          </li>
+          <li sec:authorize="isAuthenticated()" class="nav-item">
+            <form th:action="@{/logout}" method="POST">
+              <input class="nav-link" type="submit" value="Выйти">
+            </form>
+          </li>
+          <li sec:authorize="!isAuthenticated()" class="nav-item">
+            <a class="nav-link" href="/auth/login">Войти в аккаунт</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+</body>
+</html>

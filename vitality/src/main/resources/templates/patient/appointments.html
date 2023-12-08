@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Просмотр приемов</title>
+  <link rel="icon" type="image/ico" href="/images/favicon.ico">
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div th:replace="'/page elements/header' :: header"></div>
+
+  <main class="container my-4" style="min-height: 90vh">
+    <h2 class="mb-3">Приемы</h2>
+    <div th:if="${appointments.isEmpty()}">У вас пока нет записей</div>
+    <div class="row my-4">
+      <div class="col-md-12 col-lg-6" th:each="appointment : ${appointments}" th:if="${appointment.status.name().equals('ACTIVE')}">
+        <div class="card mb-3 border-success">
+          <div class="card-body bg-success bg-opacity-10">
+            <h5 class="card-title" th:text="${appointment.doctor.user.lastName == null ? '' : appointment.doctor.user.lastName} + ' ' + ${appointment.doctor.user.firstName == null ? '' : appointment.doctor.user.firstName} + ' ' + ${appointment.doctor.user.middleName == null ? '' : appointment.doctor.user.middleName}"></h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="#{${appointment.doctor.speciality}}"></h6>
+            <p class="card-text">
+              Дата: <span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy')}"></span><br>
+              Время: <span th:text="${appointment.startTime} + '-' + ${appointment.startTime.plusMinutes(appointment.doctor.appointmentDuration)}"></span><br>
+              Кабинет: <span th:text="${appointment.doctor.room}"></span><br>
+              Статус: <span th:text="#{${appointment.status}}"></span>
+            </p>
+            <form method="post" th:action="@{/appointment/cancel}">
+              <input type="hidden" name="appointmentId" th:value="${appointment.id}">
+              <input type="hidden" name="patientId" th:value="${patientId}">
+              <button type="submit" class="btn btn-outline-danger">Отменить прием</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row my-4">
+      <div class="col-md-12 col-lg-6" th:each="appointment : ${appointments}" th:if="${appointment.status.name().equals('COMPLETED')}">
+        <div class="card mb-3 border-primary">
+          <div class="card-body bg-primary bg-opacity-10">
+            <h5 class="card-title" th:text="${appointment.doctor.user.lastName == null ? '' : appointment.doctor.user.lastName} + ' ' + ${appointment.doctor.user.firstName == null ? '' : appointment.doctor.user.firstName} + ' ' + ${appointment.doctor.user.middleName == null ? '' : appointment.doctor.user.middleName}"></h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="#{${appointment.doctor.speciality}}"></h6>
+            <p class="card-text">
+              Дата: <span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy')}"></span><br>
+              Время: <span th:text="${appointment.startTime} + '-' + ${appointment.startTime.plusMinutes(appointment.doctor.appointmentDuration)}"></span><br>
+              Кабинет: <span th:text="${appointment.doctor.room}"></span><br>
+              Статус: <span th:text="#{${appointment.status}}"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row my-4">
+      <div class="col-md-12 col-lg-6" th:each="appointment : ${appointments}" th:if="${appointment.status.name().equals('CANCELED')}">
+        <div class="card mb-3 border-danger">
+          <div class="card-body bg-danger bg-opacity-10">
+            <h5 class="card-title" th:text="${appointment.doctor.user.lastName == null ? '' : appointment.doctor.user.lastName} + ' ' + ${appointment.doctor.user.firstName == null ? '' : appointment.doctor.user.firstName} + ' ' + ${appointment.doctor.user.middleName == null ? '' : appointment.doctor.user.middleName}"></h5>
+            <h6 class="card-subtitle mb-2 text-muted" th:text="#{${appointment.doctor.speciality}}"></h6>
+            <p class="card-text">
+              Дата: <span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy')}"></span><br>
+              Время: <span th:text="${appointment.startTime} + '-' + ${appointment.startTime.plusMinutes(appointment.doctor.appointmentDuration)}"></span><br>
+              Кабинет: <span th:text="${appointment.doctor.room}"></span><br>
+              Статус: <span th:text="#{${appointment.status}}"></span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div th:replace="'/page elements/footer' :: footer"></div>
+  <script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

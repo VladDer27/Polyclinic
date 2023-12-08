@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Заявка на запись подтверждена</title>
+</head>
+<body>
+  <main>
+    <p>
+      Уважаем<span th:text="${appointment.patient.gender.name().equals('MALE') ? 'ый' : 'ая'}"></span>
+      <span th:text="${patient_user.firstName == null ? '' : patient_user.firstName} + ' ' + ${patient_user.middleName == null ? '' : patient_user.middleName}"></span>
+    </p>
+    <p>
+      Ваша заявка на запись была подтверждена. При посещении нашего медицинского учреждения пациентам и сопровождающим
+      обязательно иметь при себе оригинал паспорта. При сопровождении ребенка доверенным лицом, не являющимся законным представителем ребенка,
+      необходима нотариально заверенная доверенность от законных представителей.
+      Лица, не предоставившие оригиналы (нотариально заверенные копии) документов, на территорию поликлиники не допускаются.
+    </p>
+    <p>
+      Детали заявки на запись:<br>
+      <b>Дата: </b><span th:text="${#temporals.format(appointment.date, 'dd.MM.yyyy')}"></span><br>
+      <b>Время: </b><span th:text="${appointment.startTime} + '-' + ${appointment.startTime.plusMinutes(doctor.appointmentDuration)}"></span><br>
+      <b>Кабинет: </b><span th:text="${doctor.room}"></span><br>
+      <b>Специальность врача: </b><span th:text="#{${doctor.speciality}}"></span><br>
+      <b>Врач: </b><span th:text="${doctor_user.lastName == null ? '' : doctor_user.lastName} + ' ' + ${doctor_user.firstName == null ? '' : doctor_user.firstName} + ' ' + ${doctor_user.middleName == null ? '' : doctor_user.middleName}"></span><br>
+    </p>
+  </main>
+</body>
+</html>
